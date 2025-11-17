@@ -37,7 +37,8 @@ class Program
             else
             {
                 Console.WriteLine("\nInvalid input! Try again.");
-                Console.ReadKey();
+
+                Console.ReadKey( );
             }
         }
     }
