@@ -1,0 +1,4 @@
+700
+ChecklistGoal:Workout,Go to the gym during the week,50,3,3,250
+EternalGoal:Reading the scriptures,Read the scriptures before bed,100
+SimpleGoal:Give a Talk,Speak in sacrament when asked,100,True
