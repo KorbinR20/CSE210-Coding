@@ -7,7 +7,8 @@ public class Player : Character
     public int Experience { get; private set; }
     public int Gold { get; private set; }
 
-    private List<string> _inventory = new List<string>();
+    // The REAL inventory object
+    public Inventory Inventory { get; private set; } = new Inventory();
 
     public Player(string name, int maxHealth, int attackPower, int defense)
         : base(name, maxHealth, attackPower, defense)
@@ -17,6 +18,9 @@ public class Player : Character
         Gold = 0;
     }
 
+    // ---------------------------
+    // EXPERIENCE + LEVELING
+    // ---------------------------
     public void GainExperience(int amount)
     {
         Experience += amount;
@@ -32,10 +36,11 @@ public class Player : Character
             Console.WriteLine($"Amazing! {Name} leveled up to level {Level}!");
         }
     }
-    public void AddGold(int amount)
-    {
-        Gold += amount;
-    }
+
+    // ---------------------------
+    // GOLD MANAGEMENT
+    // ---------------------------
+    public void AddGold(int amount) => Gold += amount;
 
     public bool SpendGold(int amount)
     {
@@ -47,37 +52,33 @@ public class Player : Character
         return false;
     }
 
-    public void AddItem(string itemName)
+    // ---------------------------
+    // ITEM HANDLING
+    // ---------------------------
+    public void AddItem(Item item)
     {
-        _inventory.Add(itemName);
+        Inventory.AddItem(item);
+    }
+
+    public void UseItem()
+    {
+        Inventory.UseItem(this);
     }
 
     public void ShowInventory()
     {
-        Console.WriteLine($"\n{DontMakeNull(Name)}'s Inventory:");
-        if (_inventory.Count == 0)
-        {
-            Console.WriteLine("  (empty)");
-            return;
-        }
-
-        int index = 1;
-        foreach (string item in _inventory)
-        {
-            Console.WriteLine($"  {index}. {item}");
-            index++;
-        }
+        Inventory.ListItems();
     }
 
-    // Override to include level in attack damage
+    // ---------------------------
+    // COMBAT
+    // ---------------------------
     public override int Attack()
     {
-        // Example: base attack + level bonus
         int damage = AttackPower + (Level - 1);
         return damage;
     }
 
-    // Override to show more info about the player
     public override void DisplayStats()
     {
         Console.WriteLine($"\nPlayer: {Name}");
@@ -86,7 +87,4 @@ public class Player : Character
         Console.WriteLine($"Attack: {AttackPower}");
         Console.WriteLine($"Gold: {Gold}");
     }
-
-    // Small helper to avoid null name issues in case you construct weirdly
-    private string DontMakeNull(string value) => value ?? "Player";
 }

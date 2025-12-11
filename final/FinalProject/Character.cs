@@ -41,4 +41,10 @@ public abstract class Character
     }
 
     public bool IsAlive => Health > 0;
+        public void Heal(int amount)
+    {
+        Health += amount;
+        if (Health > MaxHealth)
+            Health = MaxHealth;
+    }
 }
